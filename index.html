@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Rashtriya Vidhyapith</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Karla:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1B2333;
+    --ink-soft:#242E44;
+    --gold:#C99B3D;
+    --gold-soft:#E4C878;
+    --terracotta:#A6503F;
+    --parchment:#EFE6D6;
+    --parchment-deep:#E2D5B8;
+    --text-dark:#2A2118;
+    --text-light:#F4EEDF;
+    --maroon:#5C2A26;
+    box-sizing:border-box;
+    padding-top:env(safe-area-inset-top,0px);
+    padding-bottom:env(safe-area-inset-bottom,0px);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --parchment:#E7DAC0;
+      --parchment-deep:#DACBA8;
+    }
+  }
+  :root[data-theme="dark"]{
+    --parchment:#E7DAC0;
+    --parchment-deep:#DACBA8;
+  }
+  html{scroll-behavior:smooth; scroll-padding-top:env(safe-area-inset-top,0px);}
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--parchment);
+    color:var(--text-dark);
+    font-family:'Karla',sans-serif;
+    line-height:1.6;
+    overflow-x:hidden;
+  }
+  h1,h2,h3,.serif{font-family:'Newsreader',serif;}
+  a{color:inherit;text-decoration:none;}
+  .wrap{max-width:1140px;margin:0 auto;padding:0 clamp(20px,5vw,56px);}
+
+  /* NAV */
+  nav{
+    position:sticky;top:env(safe-area-inset-top,0px);z-index:50;
+    background:rgba(27,35,51,0.92);backdrop-filter:blur(6px);
+    border-bottom:1px solid rgba(201,155,61,0.25);
+  }
+  nav .wrap{display:flex;align-items:center;justify-content:space-between;height:64px;}
+  .brand{color:var(--text-light);font-size:1.05rem;letter-spacing:.02em;}
+  .brand em{color:var(--gold-soft);font-style:italic;}
+  .navlinks{display:flex;gap:clamp(14px,2.5vw,30px);font-size:.92rem;}
+  .navlinks a{color:var(--text-light);opacity:.85;border-bottom:1px solid transparent;padding-bottom:2px;transition:opacity .2s,border-color .2s;}
+  .navlinks a:hover,.navlinks a:focus-visible{opacity:1;border-color:var(--gold);}
+  .navtoggle{display:none;}
+
+  /* HERO */
+  .hero{
+    position:relative;background:radial-gradient(ellipse at 30% 20%, var(--ink-soft), var(--ink) 70%);
+    color:var(--text-light);
+    padding:clamp(70px,14vw,140px) 0 clamp(60px,10vw,100px);
+    overflow:hidden;
+  }
+  .hero .rays{
+    position:absolute;inset:0;opacity:.35;pointer-events:none;
+  }
+  .hero-inner{position:relative;z-index:2;display:flex;flex-wrap:wrap;align-items:center;gap:40px;}
+  .hero-text{flex:1 1 480px;min-width:280px;}
+  .eyebrow-word{font-family:'Newsreader',serif;font-style:italic;color:var(--gold-soft);font-size:1.1rem;display:block;margin-bottom:10px;}
+  .hero h1{font-size:clamp(2.6rem,6.5vw,4.6rem);font-weight:500;line-height:1.05;margin:0 0 20px;}
+  .hero h1 em{font-style:italic;color:var(--gold-soft);}
+  .hero p.tagline{font-size:clamp(1.05rem,2vw,1.25rem);max-width:46ch;color:#DCD3BE;margin:0 0 32px;}
+  .cta-row{display:flex;gap:18px;flex-wrap:wrap;}
+  .btn{
+    display:inline-block;padding:13px 28px;border-radius:2px;font-size:.95rem;font-weight:600;
+    border:1px solid var(--gold);transition:background .2s,color .2s;
+  }
+  .btn.solid{background:var(--gold);color:var(--ink);}
+  .btn.solid:hover{background:var(--gold-soft);}
+  .btn.ghost{color:var(--gold-soft);}
+  .btn.ghost:hover{background:rgba(201,155,61,0.12);}
+
+  .lamp{flex:0 0 auto;width:min(230px,38vw);}
+  @keyframes flicker{
+    0%,100%{opacity:1;transform:scaleY(1) translateX(0);}
+    45%{opacity:.85;transform:scaleY(1.06) translateX(1px);}
+    60%{opacity:.95;transform:scaleY(.96) translateX(-1px);}
+  }
+  .flame{transform-origin:center bottom;animation:flicker 2.6s ease-in-out infinite;}
+  @media (prefers-reduced-motion: reduce){.flame{animation:none;}}
+
+  /* stat strip */
+  .stats{background:var(--ink);border-top:1px solid rgba(201,155,61,.2);}
+  .stats .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;padding:26px clamp(20px,5vw,56px);gap:20px;}
+  .stat{color:var(--text-light);text-align:left;padding-right:20px;border-right:1px solid rgba(244,238,223,.15);flex:1 1 140px;}
+  .stat:last-child{border-right:none;}
+  .stat b{display:block;font-family:'Newsreader',serif;font-size:1.7rem;color:var(--gold-soft);font-weight:500;}
+  .stat span{font-size:.82rem;color:#C9BFA6;}
+
+  section{padding:clamp(64px,9vw,110px) 0;}
+  .section-head{max-width:62ch;margin-bottom:44px;}
+  .section-head .kicker{color:var(--terracotta);font-family:'Newsreader',serif;font-style:italic;font-size:1.05rem;}
+  .section-head h2{font-size:clamp(1.9rem,4vw,2.7rem);font-weight:500;margin:6px 0 14px;}
+  .section-head p{color:#5A4B3B;max-width:56ch;}
+
+  /* about */
+  .about-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:56px;align-items:start;}
+  .about-grid p{margin:0 0 16px;color:#3D3226;}
+  .pull{
+    background:var(--ink);color:var(--text-light);padding:34px 30px;position:relative;border-left:4px solid var(--gold);
+  }
+  .pull p{font-family:'Newsreader',serif;font-style:italic;font-size:1.2rem;line-height:1.55;color:var(--text-light);}
+  .pull cite{display:block;margin-top:14px;font-style:normal;font-family:'Karla',sans-serif;font-size:.82rem;color:var(--gold-soft);}
+
+  /* academics grid */
+  .subjects{
+    display:grid;grid-template-columns:repeat(6,1fr);gap:2px;background:var(--parchment-deep);
+  }
+  .subject{
+    background:var(--parchment);padding:30px 22px;grid-column:span 3;
+  }
+  .subject:nth-child(1){grid-column:span 3;}
+  .subject:nth-child(2){grid-column:span 3;}
+  .subject:nth-child(3){grid-column:span 2;}
+  .subject:nth-child(4){grid-column:span 2;}
+  .subject:nth-child(5){grid-column:span 2;}
+  .subject svg{width:30px;height:30px;stroke:var(--terracotta);margin-bottom:14px;}
+  .subject h3{font-size:1.15rem;font-weight:600;margin:0 0 8px;}
+  .subject p{margin:0;font-size:.92rem;color:#5A4B3B;}
+  @media (max-width:760px){
+    .subjects{grid-template-columns:1fr 1fr;}
+    .subject, .subject:nth-child(n){grid-column:span 1 !important;}
+  }
+
+  /* timeline - ancient methods (genuine sequence) */
+  .timeline{position:relative;padding-left:0;}
+  .tl-item{
+    display:grid;grid-template-columns:64px 1fr;gap:24px;position:relative;padding-bottom:48px;
+  }
+  .tl-item:last-child{padding-bottom:0;}
+  .tl-marker{
+    width:44px;height:44px;border-radius:50%;background:var(--ink);color:var(--gold-soft);
+    display:flex;align-items:center;justify-content:center;font-family:'Newsreader',serif;font-size:1.1rem;
+    position:relative;z-index:2;
+  }
+  .tl-item:not(:last-child)::before{
+    content:"";position:absolute;left:22px;top:44px;bottom:-4px;width:1px;background:var(--parchment-deep);
+  }
+  .tl-body h3{margin:2px 0 6px;font-size:1.25rem;font-weight:600;}
+  .tl-body .then-now{display:flex;gap:28px;flex-wrap:wrap;margin-top:10px;}
+  .then-now div{flex:1 1 220px;}
+  .then-now .label{font-size:.72rem;letter-spacing:.03em;color:var(--terracotta);font-weight:700;margin-bottom:4px;}
+  .then-now p{margin:0;font-size:.92rem;color:#4A3D2E;}
+
+  /* admissions */
+  .admit{background:var(--ink);color:var(--text-light);}
+  .admit .section-head p{color:#CFC5AC;}
+  .admit .section-head .kicker{color:var(--gold-soft);}
+  .admit-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;}
+  .admit-facts{display:grid;gap:18px;}
+  .admit-facts .row{display:flex;justify-content:space-between;border-bottom:1px solid rgba(244,238,223,.15);padding-bottom:14px;font-size:.95rem;}
+  .admit-facts .row b{color:var(--gold-soft);font-weight:600;}
+
+  footer{background:var(--ink);border-top:1px solid rgba(201,155,61,.2);padding:34px 0;}
+  footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:14px;color:#B9AF95;font-size:.85rem;}
+  footer .serif{color:var(--gold-soft);}
+
+  @media (max-width:820px){
+    .navlinks{display:none;}
+    .about-grid, .admit-grid{grid-template-columns:1fr;}
+    .tl-item{grid-template-columns:44px 1fr;gap:16px;}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <div class="brand">Rashtriya <em>Vidhyapith</em></div>
+    <div class="navlinks">
+      <a href="#about">About</a>
+      <a href="#academics">Academics</a>
+      <a href="#wisdom">Ancient Wisdom</a>
+      <a href="#admissions">Admissions</a>
+      <a href="#instagram">Instagram</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <svg class="rays" viewBox="0 0 1200 600" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+    <g stroke="#C99B3D" stroke-width="1" fill="none">
+      <circle cx="980" cy="160" r="90"/>
+      <circle cx="980" cy="160" r="140"/>
+      <circle cx="980" cy="160" r="190"/>
+      <line x1="980" y1="-20" x2="980" y2="340" stroke-dasharray="2 8"/>
+      <line x1="800" y1="160" x2="1160" y2="160" stroke-dasharray="2 8"/>
+    </g>
+  </svg>
+  <div class="wrap hero-inner">
+    <div class="hero-text">
+      <span class="eyebrow-word">विद्या ददाति विनयम्</span>
+      <h1>Rashtriya <em>Vidhyapith</em></h1>
+      <p class="tagline serif" style="font-style:italic;color:var(--gold-soft);font-size:1.15rem;margin-bottom:8px;">"Strong Base, Better Future"</p>
+      <p class="tagline">Established in 1941, this school still measures itself the old way: not poured in, but drawn out — one question at a time. Modern classrooms, a Gurukul's patience.</p>
+      <div class="cta-row">
+        <a class="btn solid" href="#admissions">Enquire about admission</a>
+        <a class="btn ghost" href="#wisdom">See how we teach</a>
+      </div>
+    </div>
+    <svg class="lamp" viewBox="0 0 200 240" xmlns="http://www.w3.org/2000/svg">
+      <g fill="none" stroke="#E4C878" stroke-width="2.5">
+        <ellipse cx="100" cy="185" rx="70" ry="16"/>
+        <path d="M40 185 C40 150 60 150 60 170 C60 150 140 150 140 170 C140 150 160 150 160 185"/>
+        <ellipse cx="100" cy="175" rx="14" ry="6" fill="#E4C878"/>
+      </g>
+      <path class="flame" d="M100 165 C92 145 96 128 100 110 C104 128 108 145 100 165Z" fill="#C99B3D" opacity="0.9"/>
+      <path class="flame" d="M100 155 C96 142 98 132 100 122 C102 132 104 142 100 155Z" fill="#F4EEDF" opacity="0.9"/>
+    </svg>
+  </div>
+</header>
+
+<div class="stats">
+  <div class="wrap">
+    <div class="stat"><b>Est. 1941</b><span>Founded as a village pathshala</span></div>
+    <div class="stat"><b>14:1</b><span>Student to teacher ratio</span></div>
+    <div class="stat"><b>820</b><span>Students, classes 1&nbsp;–&nbsp;8</span></div>
+  </div>
+</div>
+
+<section id="about">
+  <div class="wrap about-grid">
+    <div>
+      <div class="section-head" style="margin-bottom:24px;">
+        <span class="kicker">Our history</span>
+        <h2>Two kinds of teacher, one classroom</h2>
+      </div>
+      <p>Rashtriya Vidhyapith began as a single-room pathshala under a peepal tree, where one teacher held class for whoever came. The building has grown since — laboratories, a library, a playing field — but the school still measures itself by that first classroom's standard: does the student understand, or have they only memorised?</p>
+      <p>We teach the full modern curriculum required of any school today, and alongside it, we keep alive the older methods this land taught with for centuries: recitation, dialogue, apprenticeship, and patience. Neither is treated as decoration for the other.</p>
+    </div>
+    <div class="pull">
+      <p>"A teacher who only fills a vessel has done half the work. The other half is teaching the student to ask why the vessel was empty."</p>
+      <cite>— said to every new teacher at Rashtriya Vidhyapith, on their first day</cite>
+    </div>
+  </div>
+</section>
+
+<section id="academics" style="background:var(--parchment-deep);">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="kicker">What we study</span>
+      <h2>A modern curriculum, taught by hand</h2>
+      <p>Classes 1 through 8, following the national curriculum framework, with smaller-than-usual sections so that a teacher can still know every student by name.</p>
+    </div>
+    <div class="subjects">
+      <div class="subject">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6"><path d="M4 5c3-2 6-2 8 0v14c-2-2-5-2-8 0V5Z"/><path d="M20 5c-3-2-6-2-8 0v14c2-2 5-2 8 0V5Z"/></svg>
+        <h3>Sciences &amp; Mathematics</h3>
+        <p>Science and mathematics through class 8, with a working laboratory for hands-on demonstrations, not just a textbook.</p>
+      </div>
+      <div class="subject">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6"><circle cx="12" cy="12" r="8"/><path d="M12 4c2.5 2.5 2.5 13.5 0 16M12 4c-2.5 2.5-2.5 13.5 0 16M4 12h16"/></svg>
+        <h3>Sanskrit &amp; Classical Languages</h3>
+        <p>Compulsory Sanskrit through class 8, taught through recitation and grammar rather than translation alone.</p>
+      </div>
+      <div class="subject">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6"><path d="M4 20V9l8-5 8 5v11"/><path d="M9 20v-6h6v6"/></svg>
+        <h3>Social Sciences</h3>
+        <p>History, civics, geography and economics, taught with an emphasis on primary sources and local fieldwork.</p>
+      </div>
+      <div class="subject">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6"><path d="M12 3a9 9 0 1 0 0 18c1 0 1.6-.7 1.6-1.5 0-.4-.2-.8-.4-1.1-.2-.3-.4-.7-.4-1.1 0-.8.6-1.3 1.4-1.3H16c2.2 0 4-1.8 4-4C20 6.6 16.4 3 12 3Z"/><circle cx="8" cy="10" r="1"/><circle cx="12" cy="7.5" r="1"/><circle cx="16" cy="10" r="1"/></svg>
+        <h3>Fine Arts</h3>
+        <p>Painting and craft, taught through practice and observation rather than a fixed technique manual.</p>
+      </div>
+      <div class="subject">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6"><path d="M4 12h16M8 6l-4 6 4 6M16 6l4 6-4 6"/></svg>
+        <h3>Computing &amp; Digital Literacy</h3>
+        <p>Programming fundamentals from class 6, and digital literacy woven into every subject, not taught apart from them.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="wisdom">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="kicker">How we teach</span>
+      <h2>Five habits from the old Gurukul, still in use</h2>
+      <p>None of these are museum pieces. Each one shows up somewhere in our timetable this week, adapted to a classroom of thirty rather than a courtyard of five.</p>
+    </div>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-marker">1</div>
+        <div class="tl-body">
+          <h3>Guru-Shishya Parampara — learning through relationship</h3>
+          <p style="color:#4A3D2E;font-size:.95rem;">Understanding was built through a long, direct relationship between one teacher and a few students, not a lecture to a hall.</p>
+          <div class="then-now">
+            <div><div class="label">THEN</div><p>A single teacher took full responsibility for a small group of students across many years.</p></div>
+            <div><div class="label">NOW</div><p>Every student here is assigned a mentor-teacher who follows their progress across subjects, not just one.</p></div>
+          </div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-marker">2</div>
+        <div class="tl-body">
+          <h3>Shruti — learning by careful listening</h3>
+          <p style="color:#4A3D2E;font-size:.95rem;">Long verses were carried for generations through exact spoken repetition, before any of it was written down.</p>
+          <div class="then-now">
+            <div><div class="label">THEN</div><p>Students repeated verses aloud after their teacher until pronunciation and rhythm were exact.</p></div>
+            <div><div class="label">NOW</div><p>Sanskrit and poetry classes still open with recitation, before the text is ever opened on a page.</p></div>
+          </div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-marker">3</div>
+        <div class="tl-body">
+          <h3>Gurukul life — study and daily work together</h3>
+          <p style="color:#4A3D2E;font-size:.95rem;">Students once lived with their teacher, and lessons were folded into the ordinary work of the household.</p>
+          <div class="then-now">
+            <div><div class="label">THEN</div><p>Cooking, gardening and cleaning were taught as seriously as grammar or arithmetic.</p></div>
+            <div><div class="label">NOW</div><p>Every class keeps a rostered "duty period" — kitchen garden, library upkeep, junior-class tutoring.</p></div>
+          </div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-marker">4</div>
+        <div class="tl-body">
+          <h3>Learning outdoors, under a tree</h3>
+          <p style="color:#4A3D2E;font-size:.95rem;">A courtyard or a tree's shade was the original classroom, chosen for quiet rather than walls.</p>
+          <div class="then-now">
+            <div><div class="label">THEN</div><p>Classes were held outdoors whenever weather allowed, seated in a loose circle around the teacher.</p></div>
+            <div><div class="label">NOW</div><p>Our courtyard classroom under the old banyan is booked out most mornings, weather permitting.</p></div>
+          </div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-marker">5</div>
+        <div class="tl-body">
+          <h3>Shastrartha — learning by argument</h3>
+          <p style="color:#4A3D2E;font-size:.95rem;">Understanding was tested in open, reasoned debate, where a student had to defend an idea in front of others.</p>
+          <div class="then-now">
+            <div><div class="label">THEN</div><p>Scholars debated a text's meaning point by point, in front of an audience that judged the reasoning.</p></div>
+            <div><div class="label">NOW</div><p>Every class holds a weekly debate period on a question from that week's lesson, no notes allowed.</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="admissions" class="admit">
+  <div class="wrap admit-grid">
+    <div>
+      <div class="section-head">
+        <span class="kicker">Join us</span>
+        <h2>Admissions for 2027–28 are open</h2>
+        <p>We admit into classes 1 and 6 each year, and into other classes where seats are free. Entry is by an interview with the student and one parent — no written entrance test at any stage.</p>
+      </div>
+      <a class="btn solid" href="mailto:rashtriyavidhyapith@gmail.com">Write to the admissions office</a>
+    </div>
+    <div class="admit-facts">
+      <div class="row"><span>Address</span><b>Ghass Bazar, Ratlam (M.P.), India</b></div>
+      <div class="row"><span>Phone</span><b>+91-7412235789, +91-9301291737</b></div>
+      <div class="row"><span>Email</span><b>rashtriyavidhyapith@gmail.com</b></div>
+      <div class="row"><span>Office hours</span><b>Mon – Sat, 9:00 – 15:30</b></div>
+      <div class="row"><span>Medium of instruction</span><b>Hindi &amp; English</b></div>
+    </div>
+  </div>
+</section>
+
+<section id="instagram" style="background:var(--parchment-deep);">
+  <div class="wrap" style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:32px;">
+    <div style="display:flex;align-items:center;gap:20px;">
+      <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="var(--terracotta)" stroke-width="1.6" style="flex:0 0 auto;">
+        <rect x="3" y="3" width="18" height="18" rx="5"/>
+        <circle cx="12" cy="12" r="4.2"/>
+        <circle cx="17.2" cy="6.8" r="0.9" fill="var(--terracotta)" stroke="none"/>
+      </svg>
+      <div>
+        <div class="kicker" style="color:var(--terracotta);font-family:'Newsreader',serif;font-style:italic;font-size:1.05rem;">Follow along</div>
+        <h3 style="margin:2px 0 4px;font-size:1.4rem;font-weight:600;">@rashtriyavidyapith</h3>
+        <p style="margin:0;color:#5A4B3B;font-size:.92rem;">Classroom moments, event photos, and notices — posted from our courtyard, not a marketing calendar.</p>
+      </div>
+    </div>
+    <a class="btn solid" style="border-color:var(--terracotta);background:var(--terracotta);" href="https://instagram.com/rashtriyavidyapith" target="_blank" rel="noopener">Visit our Instagram</a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="serif" style="font-family:'Newsreader',serif;font-style:italic;">विद्या ददाति विनयम् — knowledge gives humility.</div>
+    <div>© 2026 Rashtriya Vidhyapith. All rights reserved.</div>
+  </div>
+</footer>
+
+</body>
+</html>
